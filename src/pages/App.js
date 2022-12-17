@@ -16,36 +16,32 @@ function App() {
 
   const handleSearchRepo = async () => {
 
-    const {data} = await api.get(`repos/${currentRepo}`)
+    const { data } = await api.get(`repos/${currentRepo}`);
 
-    if(data.id){
-
+    if (data.id) {
       const isExist = repos.find(repo => repo.id === data.id);
-
-      if(!isExist){
+      if (!isExist) {
         setRepos(prev => [...prev, data]);
         setCurrentRepo('')
         return
       }
-
     }
-    alert('Repositório não encontrado')
-
+    alert('Repositório já foi adicionado!')
   }
 
   const handleRemoveRepo = (id) => {
     console.log('Removendo registro', id);
-
-    // utilizar filter.
+    setRepos(repos.filter(repo => repo.id !== id));
+    setCurrentRepo('')
   }
 
 
   return (
     <Container>
-      <img src={gitLogo} width={72} height={72} alt="github logo"/>
+      <img src={gitLogo} width={72} height={72} alt="github logo" />
       <Input value={currentRepo} onChange={(e) => setCurrentRepo(e.target.value)} />
-      <Button onClick={handleSearchRepo}/>
-      {repos.map(repo => <ItemRepo handleRemoveRepo={handleRemoveRepo} repo={repo}/>)}
+      <Button onClick={handleSearchRepo} />
+      {repos.map(repo => <ItemRepo handleRemoveRepo={handleRemoveRepo} repo={repo} />)}
     </Container>
   );
 }
